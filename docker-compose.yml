@@ -1,31 +1,42 @@
-version: '3.8'
+version: '3'
 
 services:
-  api:
-    build:
-      context: .
-      dockerfile: Dockerfile
+
+  go-blog-platform:
+    image: siddheshk02/go-blog-platform:latest
+    build: .
     ports:
-      - "8080:8080"  # Expose API on port 8080
+      - 8080:8080
     environment:
-      - DB_HOST=localhost
-      - DB_PORT=5432
-      - DB_USER=postgres
-      - DB_PASSWORD=Sid@2002
-      - DB_NAME=go-blog-platform
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: password
+      DB_NAME: go_blog_platform
+    volumes:
+      - .:/app
     depends_on:
       - db
+    networks:
+      - learning
 
   db:
-    image: postgres:13
+    image: postgres:latest
+    container_name: go_db
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: Sid@2002
-      POSTGRES_DB: go-blog-platform
-    volumes:
-      - pgdata:/var/lib/postgresql/data
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: go_blog_platform
     ports:
-      - "5432:5432"  # Expose PostgreSQL on port 5432
+      - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - learning
 
 volumes:
-  pgdata:
+  postgres_data:
+
+networks:
+  learning:
+    driver: bridge

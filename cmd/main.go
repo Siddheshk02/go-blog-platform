@@ -1,8 +1,6 @@
 package main
 
 import (
-	"database/sql"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -20,37 +18,22 @@ import (
 func main() {
 
 	config.LoadConfig()
-	user := os.Getenv("User")
-	pass := os.Getenv("Password")
+	dbHost := os.Getenv("DB_HOST")
+	dbPort := os.Getenv("DB_PORT")
+	dbUser := os.Getenv("DB_USER")
+	dbName := os.Getenv("DB_NAME")
+	dbPassword := os.Getenv("DB_PASSWORD")
 
-	connStr := "host=localhost port=5432 user=" + user + " password=" + pass + " sslmode=disable"
-
-	db, err := sql.Open("postgres", connStr)
+	db, err := gorm.Open("postgres", "host="+dbHost+" port="+dbPort+" user="+dbUser+" dbname="+dbName+" password="+dbPassword+" sslmode=disable")
 	if err != nil {
-		log.Fatalf("Failed to connect to PostgreSQL: %v", err)
+		log.Fatalf("Failed to connect to database: %v", err)
 	}
 	defer db.Close()
 
-	databaseName := "go_blog_platform"
-	_, err = db.Exec(fmt.Sprintf("CREATE DATABASE %s", databaseName))
-	if err != nil {
-		log.Printf("%v", err)
-	} else {
-		log.Printf("Database %s created successfully", databaseName)
-	}
-
-	gormConnStr := fmt.Sprintf("%s dbname=%s", connStr, databaseName)
-	gormDB, err := gorm.Open("postgres", gormConnStr)
-	if err != nil {
-		log.Fatalf("Failed to connect to the new database with Gorm: %v", err)
-	}
-	defer gormDB.Close()
-
-	gormDB.AutoMigrate(&models.User{}, &models.Post{})
-
-	authRepo := repository.NewAuthRepository(gormDB)
-	userRepo := repository.NewUserRepository(gormDB)
-	postRepo := repository.NewPostRepository(gormDB)
+	db.AutoMigrate(&models.User{}, &models.Post{})
+	authRepo := repository.NewAuthRepository(db)
+	userRepo := repository.NewUserRepository(db)
+	postRepo := repository.NewPostRepository(db)
 
 	authService := services.NewAuthService(authRepo)
 	userService := services.NewUserService(userRepo)
