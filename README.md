@@ -15,7 +15,7 @@ A simple blog platform API built with Golang featuring JWT authentication, CRUD 
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/your-repo/go-blog-platform.git
+    git clone https://github.com/Siddheshk02/go-blog-platform.git
     cd go-blog-platform
     ```
 
@@ -34,7 +34,8 @@ On Successful Run, test the API (Use any API testing tool)
 ## Example
  - Register : (POST) `http://localhost:8080/register` { "username": "your_username", "email": "your_email", "password": "your_password" }
    
- - Login : (POST) `http://localhost:8080/login` { "username": "your_username", "email": "your_email", "password": "your_password" } ("When you log in, the API generates a JWT bearer token, which can be found in the response header under Authorization. Use this token by adding it to the Authorization header of your subsequent requests (e.g., Authorization: Bearer <token>) to access protected routes.")
+ - Login : (POST) `http://localhost:8080/login` { "username": "your_username", "email": "your_email", "password": "your_password" }
+   ("When you log in, the API generates a JWT bearer token, which can be found in the response header under Authorization. Use this token by adding it to the Authorization header of your subsequent requests (e.g., Authorization: Bearer <token>) to access protected routes.")
 
  - Profile : (GET) `http://localhost:8080/profile` {"user_id":1,"username":"User1","email":"User1@xyz.com"}
 
