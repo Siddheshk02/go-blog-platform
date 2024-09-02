@@ -11,7 +11,7 @@ services:
       - DB_HOST=localhost
       - DB_PORT=5432
       - DB_USER=postgres
-      - DB_PASSWORD=Sid@2002
+      - DB_PASSWORD=
       - DB_NAME=go-blog-platform
     depends_on:
       - db
@@ -20,7 +20,7 @@ services:
     image: postgres:13
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: Sid@2002
+      POSTGRES_PASSWORD: 
       POSTGRES_DB: go-blog-platform
     volumes:
       - pgdata:/var/lib/postgresql/data
