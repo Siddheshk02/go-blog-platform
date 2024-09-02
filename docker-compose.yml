@@ -11,7 +11,7 @@ services:
       DB_HOST: db
       DB_PORT: 5432
       DB_USER: postgres
-      DB_PASSWORD: password
+      DB_PASSWORD: Sid@2002
       DB_NAME: go_blog_platform
     volumes:
       - .:/app
@@ -25,7 +25,7 @@ services:
     container_name: go_db
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
+      POSTGRES_PASSWORD: Sid@2002
       POSTGRES_DB: go_blog_platform
     ports:
       - 5432:5432
